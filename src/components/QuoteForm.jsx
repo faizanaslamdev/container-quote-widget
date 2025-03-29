@@ -467,6 +467,9 @@ const QuoteForm = () => {
             <button className="new-quote-button" onClick={() => resetForm()}>
               Get Another Quote
             </button>
+            <div className="thank-you-logo">
+              <img src="/images/logo.png" alt="Freedom Coney Logo" />
+            </div>
           </div>
         );
 

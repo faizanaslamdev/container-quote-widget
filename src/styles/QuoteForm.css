@@ -885,11 +885,10 @@ body {
 
 .phone-input-field {
   width: 100% !important;
-  height: 48px !important;
+  height: 56px !important;
   border-radius: 100px !important;
   font-size: 16px !important;
-  padding: 12px 24px 12px 54px !important;
-  transition: border-color 0.3s ease !important;
+  padding: 16px 24px 16px 65px !important;
   background: #e5eaef !important;
   border: none !important;
 }
@@ -902,26 +901,23 @@ body {
 }
 
 .react-tel-input .selected-flag {
+  height: 56px !important;
   border-radius: 100px 0 0 100px !important;
   background: transparent !important;
-  padding: 0 0 0 20px !important;
+  padding: 0 0 0 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 80px !important;
 }
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
-  .contact-form input,
-  .zip-input {
-    padding: 12px 20px;
-  }
-
   .phone-input-field {
-    height: 44px !important;
-    font-size: 14px !important;
-    padding: 10px 20px 10px 50px !important;
+    padding: 16px 24px 16px 84px !important;
   }
 
   .react-tel-input .selected-flag {
-    padding: 0 0 0 16px !important;
+    width: 80px !important;
   }
 }
 
@@ -1151,5 +1147,29 @@ body {
 
   .dimensions-button {
     order: -1;
+  }
+}
+
+.thank-you-logo {
+  margin-top: 50px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.thank-you-logo img {
+  width: 100%;
+  height: auto;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .thank-you {
+    padding: 32px 16px;
+    gap: 20px;
+  }
+
+  .thank-you-logo {
+    margin-top: 32px;
+    max-width: 240px;
   }
 }
