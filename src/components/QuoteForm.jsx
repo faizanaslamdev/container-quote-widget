@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/QuoteForm.css';
 
 const steps = {
+  LANDING: 'LANDING',
   CONTAINER_SIZE: 'CONTAINER_SIZE',
   CONTAINER_CONDITION: 'CONTAINER_CONDITION',
   DELIVERY_METHOD: 'DELIVERY_METHOD',
@@ -27,7 +28,7 @@ const deliveryMethods = [
 ];
 
 const QuoteForm = () => {
-  const [currentStep, setCurrentStep] = useState(steps.CONTAINER_SIZE);
+  const [currentStep, setCurrentStep] = useState(steps.LANDING);
   const [formData, setFormData] = useState({
     containerSize: '',
     condition: '',
@@ -122,6 +123,9 @@ const QuoteForm = () => {
   const handleBack = () => {
     setErrors({});
     switch (currentStep) {
+      case steps.CONTAINER_SIZE:
+        setCurrentStep(steps.LANDING);
+        break;
       case steps.CONTAINER_CONDITION:
         setCurrentStep(steps.CONTAINER_SIZE);
         break;
@@ -154,17 +158,17 @@ const QuoteForm = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://your-api-endpoint.com/quotes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // const response = await fetch('https://your-api-endpoint.com/quotes', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
       
-      if (!response.ok) {
-        throw new Error('Failed to submit quote');
-      }
+      // if (!response.ok) {
+      //   throw new Error('Failed to submit quote');
+      // }
       setCurrentStep(steps.THANK_YOU);
     } catch (error) {
       console.error('Error submitting quote:', error);
@@ -173,6 +177,20 @@ const QuoteForm = () => {
       setIsSubmitting(false);
     }
   };
+
+  const resetForm = () => {
+    setFormData({
+      containerSize: '',
+      condition: '',
+      deliveryMethod: '',
+      zipCode: '',
+      fullName: '',
+      email: '',
+      phone: ''
+    });
+    setCurrentStep(steps.CONTAINER_SIZE);
+  };
+  
 
   const renderProgressBar = () => {
     const stepOrder = [
@@ -204,17 +222,19 @@ const QuoteForm = () => {
     switch (currentStep) {
       case steps.CONTAINER_SIZE:
         return (
-          <div className="step-content">
-            <h2>What size container are you looking for?</h2>
+          <div className="step-main-content">
+            <h2 className="step-title">What size container are you looking for?</h2>
             <div className="options-grid">
               {containerSizes.map((size) => (
+                <div className="main-card" >
                 <div
                   key={size.id}
-                  className={`option-card ${formData.containerSize === size.id ? 'selected' : ''}`}
+                  className={`option-card container-size-card ${formData.containerSize === size.id ? 'selected' : ''}`}
                   onClick={() => setFormData({ ...formData, containerSize: size.id })}
                 >
                   <img src={size.image} alt={size.label} />
-                  <span>{size.label}</span>
+                </div>
+                  <span className="container-label">{size.label}</span>
                 </div>
               ))}
             </div>
@@ -224,17 +244,19 @@ const QuoteForm = () => {
 
       case steps.CONTAINER_CONDITION:
         return (
-          <div className="step-content">
-            <h2>What condition container are you interested in?</h2>
+          <div className="step-main-content">
+            <h2 className="step-title">What condition container are you interested in?</h2>
             <div className="options-grid">
               {containerConditions.map((condition) => (
+                <div className="main-card" >
                 <div
                   key={condition.id}
                   className={`option-card ${formData.condition === condition.id ? 'selected' : ''}`}
                   onClick={() => setFormData({ ...formData, condition: condition.id })}
                 >
                   <img src={condition.image} alt={condition.label} />
-                  <span>{condition.label}</span>
+                </div>
+                  <span className="container-label">{condition.label}</span>
                 </div>
               ))}
             </div>
@@ -244,17 +266,19 @@ const QuoteForm = () => {
 
       case steps.DELIVERY_METHOD:
         return (
-          <div className="step-content">
-            <h2>How would you like to receive your container?</h2>
+          <div className="step-main-content">
+            <h2 className="step-title">How would you like to receive your container?</h2>
             <div className="options-grid">
               {deliveryMethods.map((method) => (
+                <div className="main-card" >
                 <div
                   key={method.id}
                   className={`option-card ${formData.deliveryMethod === method.id ? 'selected' : ''}`}
                   onClick={() => setFormData({ ...formData, deliveryMethod: method.id })}
                 >
                   <img src={method.image} alt={method.label} />
-                  <span>{method.label}</span>
+                </div>
+                  <span className="container-label">{method.label}</span>
                 </div>
               ))}
             </div>
@@ -264,16 +288,22 @@ const QuoteForm = () => {
 
       case steps.ZIP_CODE:
         return (
-          <div className="step-content">
-            <h2>What is your delivery zip code?</h2>
+          <div className="step-main-content">
+            <h2 className="step-title">What is your delivery zip code?</h2>
             <div className="input-group">
-              <input
-                type="text"
-                placeholder="Enter your zip code"
-                value={formData.zipCode}
-                onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
-                maxLength="5"
-              />
+              <div className="zip-input">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 10.8333C11.3807 10.8333 12.5 9.71404 12.5 8.33333C12.5 6.95262 11.3807 5.83333 10 5.83333C8.61929 5.83333 7.5 6.95262 7.5 8.33333C7.5 9.71404 8.61929 10.8333 10 10.8333Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M10 17.5C12.5 14.1667 15 11.0153 15 8.33333C15 5.65139 12.7614 3.33333 10 3.33333C7.23858 3.33333 5 5.65139 5 8.33333C5 11.0153 7.5 14.1667 10 17.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Enter your zip code here..."
+                  value={formData.zipCode}
+                  onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
+                  maxLength="5"
+                />
+              </div>
               {errors.zipCode && <div className="error-message">{errors.zipCode}</div>}
             </div>
           </div>
@@ -281,9 +311,9 @@ const QuoteForm = () => {
 
       case steps.CONTACT_INFO:
         return (
-          <div className="step-content">
-            <h2>Almost Done!</h2>
-            <p>Please provide your name and email for a personalized quote</p>
+          <div className="step-main-content">
+            <h2 className="step-title almost-done">Almost Done!</h2>
+            <p className="step-description">Please provide your name and email for a personalized quote</p>
             <div className="contact-form">
               <div className="input-group">
                 <input
@@ -304,12 +334,18 @@ const QuoteForm = () => {
                 {errors.email && <div className="error-message">{errors.email}</div>}
               </div>
               <div className="input-group">
-                <input
-                  type="tel"
-                  placeholder="Phone Number"
-                  value={formData.phone}
-                  onChange={handlePhoneChange}
-                />
+                <div className="phone-input">
+                  <div className="country-code">
+                    <img src="/images/us-flag.png" alt="US" width="20" height="20" />
+                    +1
+                  </div>
+                  <input
+                    type="tel"
+                    placeholder="(000) 000 - 0000"
+                    value={formData.phone}
+                    onChange={handlePhoneChange}
+                  />
+                </div>
                 {errors.phone && <div className="error-message">{errors.phone}</div>}
               </div>
             </div>
@@ -319,13 +355,13 @@ const QuoteForm = () => {
 
       case steps.THANK_YOU:
         return (
-          <div className="step-content thank-you">
+          <div className="thank-you">
             <div className="success-icon">✓</div>
-            <h2>Thank you, {formData.fullName}!</h2>
-            <p>One of our dedicated Sales Representatives will reach out to you shortly!</p>
+            <h2 className="thank-you-title">Thank you, {formData.fullName}!</h2>
+            <p className="thank-you-description">One of our dedicated Sales Representatives will reach out to you shortly!</p>
             <button
               className="new-quote-button"
-              onClick={() => window.location.reload()}
+              onClick={() => resetForm()}
             >
               Get Another Quote
             </button>
@@ -337,33 +373,65 @@ const QuoteForm = () => {
     }
   };
 
+  if (currentStep === steps.LANDING) {
+    return (
+      <div className="landing-page">
+        <div className="landing-content">
+          <div className="landing-image">
+            <img src="/images/container-crane.png" alt="Container with crane" />
+          </div>
+          <div className="landing-text">
+            <h1 className="landing-title">Ready For a Quote?</h1>
+            <p className="landing-description">
+              We Make It Easy and Effortless! Simple. Quick. Free. Get Your Quote Now!
+            </p>
+            <button 
+              onClick={() => setCurrentStep(steps.CONTAINER_SIZE)} 
+              className="get-started-button"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="quote-form-container">
-      {currentStep !== steps.THANK_YOU && renderProgressBar()}
-      
-      {renderStep()}
-      
-      {currentStep !== steps.THANK_YOU && (
-        <div className="form-actions">
-          {currentStep !== steps.CONTAINER_SIZE && (
+      <div className="step-content">
+        {currentStep !== steps.THANK_YOU && renderProgressBar()}
+        {renderStep()}
+        {currentStep !== steps.THANK_YOU && (
+          <div className="form-actions">
             <button onClick={handleBack} className="back-button">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
               Back
             </button>
-          )}
-          
-          <button
-            onClick={handleNext}
-            className="next-button"
-            disabled={isSubmitting}
-          >
-            {currentStep === steps.CONTACT_INFO ? (
-              isSubmitting ? 'Submitting...' : 'Submit'
-            ) : (
-              'Next'
-            )}
-          </button>
-        </div>
-      )}
+
+            <button
+              onClick={handleNext}
+              className="next-button"
+              disabled={isSubmitting}
+            >
+              {currentStep === steps.CONTACT_INFO
+                ? isSubmitting
+                  ? "Submitting..."
+                  : "Submit"
+                : (
+                  <>
+                    Next
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </>
+                )}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
