@@ -15,22 +15,26 @@ const steps = {
 };
 
 const containerSizes = [
-  { id: "20ft", label: "20ft Standard", image: "/images/20ft.png" },
-  { id: "40ft", label: "40ft Standard", image: "/images/40ft.png" },
-  { id: "40ft-hc", label: "40ft High Cube", image: "/images/40ft-hc.png" },
+  { id: "20ft", label: "20ft Standard", image: "./images/20ft.png" },
+  { id: "40ft", label: "40ft Standard", image: "./images/40ft.png" },
+  { id: "40ft-hc", label: "40ft High Cube", image: "./images/40ft-hc.png" },
 ];
 
 const containerConditions = [
-  { id: "new", label: "New", image: "/images/new-container.png" },
-  { id: "used", label: "Used", image: "/images/used-container.png" },
+  { id: "new", label: "New", image: "./images/new-container.png" },
+  { id: "used", label: "Used", image: "./images/used-container.png" },
 ];
 
 const deliveryMethods = [
-  { id: "tilt-bed", label: "Tilt Bed Delivery", image: "/images/tilt-bed.png" },
+  {
+    id: "tilt-bed",
+    label: "Tilt Bed Delivery",
+    image: "./images/tilt-bed.png",
+  },
   {
     id: "self-pickup",
     label: "Self Pick Up",
-    image: "/images/self-pickup.png",
+    image: "./images/self-pickup.png",
   },
 ];
 
@@ -192,7 +196,7 @@ const QuoteForm = () => {
     try {
       // Add artificial delay of 1 second
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      const response = await fetch(`${config.apiUrl}/api/agent/quotes`, {
+      const response = await fetch(`${config.apiUrl}/agent/quotes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -472,7 +476,7 @@ const QuoteForm = () => {
               Get Another Quote
             </button>
             <div className="thank-you-logo">
-              <img src="/images/logo.png" alt="Freedom Coney Logo" />
+              <img src="./images/logo.png" alt="Freedom Coney Logo" />
             </div>
           </div>
         );
@@ -487,7 +491,10 @@ const QuoteForm = () => {
       <div className="landing-page">
         <div className="landing-content">
           <div className="landing-image">
-            <img src="/images/container-crane.png" alt="Container with crane" />
+            <img
+              src="./images/container-crane.png"
+              alt="Container with crane"
+            />
           </div>
           <div className="landing-text">
             <h1 className="landing-title">Ready For a Quote?</h1>
@@ -542,7 +549,7 @@ const QuoteForm = () => {
                 onClick={() => setIsDimensionsGuideOpen(true)}
               >
                 <img
-                  src="/images/dimensions-guide.png"
+                  src="./images/dimensions-guide.png"
                   alt="Dimensions Guide"
                 />
                 Dimensions Guide

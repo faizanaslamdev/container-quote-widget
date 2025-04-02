@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Container Quote Form Test</title>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-</head>
-<body>
-  <div id="quote-form-container"></div>
-  <script src="/dist/container-quote-widget.umd.js"></script>
-  <script>
-    window.initContainerQuoteWidget('quote-form-container');
-  </script>
-</body>
-</html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quote Widget Test</title>
+  </head>
+  <body>
+    <!-- Widget will be rendered inside this div -->
+    <div id="quote-widget-container"></div>
+
+    <!-- Load React BEFORE the widget -->
+    <script
+      crossorigin
+      src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"
+    ></script>
+
+    <!-- Add the widget styles -->
+    <link rel="stylesheet" href="container-quote-widget.css" />
+
+    <!-- Include the widget script AFTER React -->
+    <script src="container-quote-widget.umd.cjs"></script>
+  </body>
+</html>

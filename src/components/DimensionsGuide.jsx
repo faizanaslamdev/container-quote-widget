@@ -94,12 +94,12 @@ const DimensionsGuide = ({ isOpen, onClose }) => {
         <div className="container-images">
           <div className="container-image-wrapper">
             <img
-              src="/images/container-20.png"
+              src="./images/container-20.png"
               alt="20ft container"
               className="container"
             />
             <img
-              src="/images/arrow-20.png"
+              src="./images/arrow-20.png"
               alt="20ft dimension"
               className="dimension-arrow length-20"
             />
@@ -107,12 +107,12 @@ const DimensionsGuide = ({ isOpen, onClose }) => {
 
           <div className="container-image-wrapper">
             <img
-              src="/images/container-40.png"
+              src="./images/container-40.png"
               alt="40ft container"
               className="container"
             />
             <img
-              src="/images/arrow-40.png"
+              src="./images/arrow-40.png"
               alt="40ft dimension"
               className="dimension-arrow length-40"
             />
