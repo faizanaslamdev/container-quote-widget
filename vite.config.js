@@ -6,10 +6,8 @@ export default defineConfig({
   plugins: [react()],
   define: {
     "process.env": {
-      NODE_ENV: JSON.stringify(process.env.VITE_NODE_ENV || "development"),
-      API_URL: JSON.stringify(
-        process.env.VITE_API_URL || "http://localhost:3000"
-      ),
+      NODE_ENV: JSON.stringify(process.env.VITE_NODE_ENV),
+      API_URL: JSON.stringify(process.env.VITE_API_URL),
     },
   },
   build: {
