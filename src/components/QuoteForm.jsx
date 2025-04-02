@@ -3,7 +3,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "../styles/QuoteForm.css";
 import DimensionsGuide from "./DimensionsGuide";
-
+import config from "../config/config";
 const steps = {
   LANDING: "LANDING",
   CONTAINER_SIZE: "CONTAINER_SIZE",
@@ -49,12 +49,15 @@ const QuoteForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(true);
   const [isDimensionsGuideOpen, setIsDimensionsGuideOpen] = useState(false);
+  const formRef = React.useRef(null);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (formRef.current) {
+      formRef.current.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    }
   };
 
   const validateStep = () => {
@@ -187,26 +190,27 @@ const QuoteForm = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      // const response = await fetch('https://your-api-endpoint.com/quotes', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
+      // Add artificial delay of 1 second
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await fetch(`${config.apiUrl}/api/agent/quotes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      // if (!response.ok) {
-      //   throw new Error('Failed to submit quote');
-      // }
-      setTimeout(() => {
-        setCurrentStep(steps.THANK_YOU);
-        setIsSubmitting(false);
-      }, 1000);
+      if (!response.ok) {
+        throw new Error("Failed to submit quote");
+      }
+      // Add another small delay before showing thank you screen
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setCurrentStep(steps.THANK_YOU);
     } catch (error) {
       console.error("Error submitting quote:", error);
       setErrors({ submit: "Failed to submit quote. Please try again." });
     } finally {
-      // setIsSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -507,7 +511,7 @@ const QuoteForm = () => {
   }
 
   return (
-    <div className="quote-form-container">
+    <div className="quote-form-container" ref={formRef}>
       <div className="step-content">
         {currentStep !== steps.THANK_YOU && renderProgressBar()}
         {renderStep()}
